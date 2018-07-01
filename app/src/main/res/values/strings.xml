@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Lista de Compras</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_produto">ProdutoActivity</string>
+
+    <array name="tipos">
+        <item>Roupas</item>
+        <item>Artigos Escolares</item>
+        <item>Alimentos</item>
+        <item>Ferramentas</item>
+    </array>
+</resources>
