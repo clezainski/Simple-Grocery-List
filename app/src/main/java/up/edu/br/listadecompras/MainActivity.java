@@ -95,14 +95,19 @@ public class MainActivity extends AppCompatActivity {
                                     //produto pendente no banco, para ser comprado
                                     List<ListaCompras> listaCompras1 = new ListaComprasDAO().listar();
                                     boolean finalizado = true;
+                                    Double total = 0.0;
                                     for(ListaCompras c: listaCompras1){
                                         if (c.getStatus().equals("1")){
                                             finalizado = false;
                                         }
+                                        total += Double.parseDouble(c.getQuantidade()) *
+                                                Double.parseDouble(c.getValor());
                                     }
                                     //Chama a notificação, caso tudo tenha sido comprado
                                     if (finalizado==true){
-                                        Notifica("Você finalizou sua compra!");
+
+                                        Notifica("Você finalizou sua compra! Você gastou R$" +
+                                                total.toString() );
                                     }
                                 }
                                 //devolve um produto comprado

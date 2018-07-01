@@ -72,6 +72,7 @@ public class ListaComprasAdapter extends BaseAdapter {
         else{
             txtView1.setBackgroundColor(Color.parseColor("#ff3232"));
             txtView1.setText("Não comprado");
+            txtView1.setTextColor(Color.parseColor("#d6d6d6"));
         }
 
         if(c.getTipo().equals("Ferramentas")){
