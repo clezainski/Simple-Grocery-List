@@ -106,8 +106,8 @@ public class MainActivity extends AppCompatActivity {
                                     //Chama a notificação, caso tudo tenha sido comprado
                                     if (finalizado==true){
 
-                                        Notifica("Você finalizou sua compra! Você gastou " +
-                                                new ListaComprasDAO().setCurrency(total) );
+                                        Notifica("Você gastou " +
+                                                new ListaComprasDAO().setCurrency(total), "Compra Finalizada!");
                                     }
                                 }
                                 //devolve um produto comprado
@@ -243,11 +243,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     //Envia um noticação via Central de Notificações do Android
-    private void Notifica(String mensagem){
+    private void Notifica(String mensagem, String titlo){
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(MainActivity.this)
                         .setSmallIcon(R.drawable.rounded_ico)
-                        .setContentTitle("Lista de Compras")
+                        .setContentTitle(titlo)
                         .setContentText(mensagem)
                         .setVibrate(new long[] { 100, 250 });
         // Cria o intent que irá chamar a atividade a ser aberta quando clicar na notifição
