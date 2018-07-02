@@ -1,10 +1,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="up.edu.br.listadecompras.MainActivity">
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+tools:context="up.edu.br.listadecompras.MainActivity">
     <item
-        android:id="@+id/share"
+        android:id="@+id/email"
         android:orderInCategory="100"
-        android:title="Enviar lista por e-mail"
+        android:icon="@drawable/food"
+        android:title="Enviar por e-mail"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/whats"
+        android:orderInCategory="100"
+        android:icon="@drawable/food"
+        android:title="Enviar por Whatsapp"
+        app:showAsAction="never"/>
+
 </menu>

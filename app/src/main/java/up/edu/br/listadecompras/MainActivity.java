@@ -106,8 +106,8 @@ public class MainActivity extends AppCompatActivity {
                                     //Chama a notificação, caso tudo tenha sido comprado
                                     if (finalizado==true){
 
-                                        Notifica("Você finalizou sua compra! Você gastou R$" +
-                                                total.toString() );
+                                        Notifica("Você finalizou sua compra! Você gastou " +
+                                                new ListaComprasDAO().setCurrency(total) );
                                     }
                                 }
                                 //devolve um produto comprado
@@ -190,31 +190,32 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.share) {
+        //Obtem o ArrayList do banco
+        List<ListaCompras> listaCompras = new ListaComprasDAO().listar();
 
-            //Obtem o ArrayList do banco
-            List<ListaCompras> listaCompras = new ListaComprasDAO().listar();
+        //Variaveis auxiliares
+        String texto = "";
+        Double valorTotal = 0.0;
 
-            //Variaveis auxiliares
-            String texto = "";
-            Double valorTotal = 0.0;
-
-            //Percorre o ArrayList, calcula valores e popula uma variavel tipo string
-            for (ListaCompras c : listaCompras) {
-                texto += "Produto: " + c.getProduto() + System.getProperty("line.separator");
-                texto += "Quantidade: " + c.getQuantidade() + System.getProperty("line.separator");
-                texto += "Valor unitário: R$" + c.getValor() + System.getProperty("line.separator");
-                texto += "Categoria: " + c.getTipo() + System.getProperty("line.separator");
-                if (c.getStatus().equals("1"))
-                    texto += "Status do produto: Não comprado" + System.getProperty("line.separator");
-                else texto += "Status do produto: Comprado" + System.getProperty("line.separator");
-                texto += "" + System.getProperty("line.separator");
-                valorTotal += Double.parseDouble(c.getValor()) * Double.parseDouble(c.getQuantidade());
-            }
+        //Percorre o ArrayList, calcula valores e popula uma variavel tipo string
+        for (ListaCompras c : listaCompras) {
+            texto += "Produto: " + c.getProduto() + System.getProperty("line.separator");
+            texto += "Quantidade: " + c.getQuantidade() + System.getProperty("line.separator");
+            texto += "Valor unitário: " + new ListaComprasDAO().setCurrency(Double.parseDouble(c.getValor()))
+                    + System.getProperty("line.separator");
+            texto += "Categoria: " + c.getTipo() + System.getProperty("line.separator");
+            if (c.getStatus().equals("1"))
+                texto += "Status do produto: Não comprado" + System.getProperty("line.separator");
+            else texto += "Status do produto: Comprado" + System.getProperty("line.separator");
             texto += "" + System.getProperty("line.separator");
-            texto += "Valor total da lista de compra: R$" + valorTotal.toString() +
-                    System.getProperty("line.separator");
+            valorTotal += Double.parseDouble(c.getValor()) * Double.parseDouble(c.getQuantidade());
+        }
+        texto += "" + System.getProperty("line.separator");
+        texto += "Valor total da lista de compra: " + new ListaComprasDAO().setCurrency(valorTotal) +
+                System.getProperty("line.separator");
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.email) {
 
             //Intent Filter responsável por solicitar o envio do e-mail
             Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
@@ -222,6 +223,19 @@ public class MainActivity extends AppCompatActivity {
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Minha lista de compras");
             emailIntent.putExtra(Intent.EXTRA_TEXT, texto);
             startActivity(Intent.createChooser(emailIntent, "Enviar por e-mail..."));
+
+            return true;
+        }
+
+        if (id == R.id.whats) {
+
+            //Intent Filter responsável por solicitar o envio do e-mail
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, texto);
+            sendIntent.setType("text/plain");
+            sendIntent.setPackage("com.whatsapp");
+            startActivity(sendIntent);
 
             return true;
         }

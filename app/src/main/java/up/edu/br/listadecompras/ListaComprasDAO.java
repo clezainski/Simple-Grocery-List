@@ -4,8 +4,13 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 
 //Data Acess Object
 public class ListaComprasDAO {
@@ -68,5 +73,12 @@ public class ListaComprasDAO {
         values.put("status", listaCompras.getStatus());
 
         conn.update("lista_compras", values, "id = ?",new String[]{listaCompras.getId().toString()});
+    }
+
+    //Formata valores como Real Brasileiro
+    public String setCurrency(Double valor){
+        NumberFormat df = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        String moneyString = df.format(valor);
+        return moneyString;
     }
 }

@@ -20,6 +20,9 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.List;
 
 public class ListaComprasAdapter extends BaseAdapter {
@@ -63,7 +66,10 @@ public class ListaComprasAdapter extends BaseAdapter {
 
         textProduto.setText(c.getQuantidade() + "   " + c.getProduto());
         Double total = Double.parseDouble(c.getQuantidade()) * Double.parseDouble(c.getValor());
-        textValor.setText("Total: " + "R$" + String.valueOf(total));
+
+        String valorTotal = new ListaComprasDAO().setCurrency(total);
+
+        textValor.setText("Total: " + valorTotal);
 
         if (c.getStatus().equals("0")){
             txtView1.setBackgroundColor(Color.parseColor("#15ff00"));
